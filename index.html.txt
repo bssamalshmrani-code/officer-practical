@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>رصد الاختبار العملي — دورة ترشيح الضباط</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --card-bg: #131a2a;
+      --border-color: #25304a;
+      --gold: #d4a843;
+      --gold-hover: #e5b952;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 560px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    .header {
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 18px;
+      margin-bottom: 22px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 22px;
+      color: var(--gold);
+      font-weight: 800;
+    }
+
+    .header p {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #e5e7eb;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 11px 14px;
+      background-color: #0b0f19;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .score-card {
+      background-color: #0e1422;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+
+    .score-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .score-title {
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .score-badge {
+      background-color: rgba(212, 168, 67, 0.15);
+      color: var(--gold);
+      border: 1px solid rgba(212, 168, 67, 0.4);
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+
+    .total-box {
+      background: linear-gradient(135deg, #182238, #111827);
+      border: 1px solid var(--gold);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .total-box span {
+      font-size: 14px;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .total-box strong {
+      font-size: 26px;
+      color: var(--gold);
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      background-color: var(--gold);
+      color: #0b0f19;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+
+    button:hover {
+      background-color: var(--gold-hover);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .alert {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      display: none;
+    }
+
+    .alert.success {
+      background-color: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--success);
+      color: #34d399;
+      display: block;
+    }
+
+    .alert.error {
+      background-color: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--danger);
+      color: #f87171;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎖️ رصد الاختبار العملي — ترشيح الضباط</h1>
+      <p>نموذج تقييم أعضاء اللجنة الميدانية (يُرسل تلقائياً للاعتماد)</p>
+    </div>
+
+    <form id="evalForm">
+      <div class="row-2">
+        <div class="form-group">
+          <label>اسم الطالب داخل المقاطعة *</label>
+          <input type="text" id="studentName" placeholder="مثال: هاني الحربي" required />
+        </div>
+        <div class="form-group">
+          <label>الكود العسكري للطالب *</label>
+          <input type="text" id="studentCode" placeholder="مثال: P-209" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>اسم المُقيّم (عضو اللجنة) *</label>
+        <input type="text" id="evaluatorName" placeholder="اكتب اسمك وكودك العسكري" required />
+      </div>
+
+      <!-- قسم الانضباط -->
+      <div class="score-card">
+        <div class="score-header">
+          <span class="score-title">1. قسم الانضباط</span>
+          <span class="score-badge" id="valDiscipline">10 / 10</span>
+        </div>
+        <input type="range" id="discipline" min="0" max="10" value="10" oninput="updateScores()" />
+      </div>
+
+      <!-- قسم الميدان -->
+      <div class="score-card">
+        <div class="score-header">
+          <span class="score-title">2. قسم الميدان</span>
+          <span class="score-badge" id="valField">10 / 10</span>
+        </div>
+        <input type="range" id="field" min="0" max="10" value="10" oninput="updateScores()" />
+      </div>
+
+      <!-- قسم العام -->
+      <div class="score-card">
+        <div class="score-header">
+          <span class="score-title">3. قسم الـعـام</span>
+          <span class="score-badge" id="valGeneral">10 / 10</span>
+        </div>
+        <input type="range" id="general" min="0" max="10" value="10" oninput="updateScores()" />
+      </div>
+
+      <!-- قسم التفاوض -->
+      <div class="score-card">
+        <div class="score-header">
+          <span class="score-title">4. قسم التفاوض</span>
+          <span class="score-badge" id="valNegotiation">10 / 10</span>
+        </div>
+        <input type="range" id="negotiation" min="0" max="10" value="10" oninput="updateScores()" />
+      </div>
+
+      <div class="form-group">
+        <label>ملاحظات اللجنة الميدانية (اختياري)</label>
+        <textarea id="notes" rows="2" placeholder="أي ملاحظات حول أداء الطالب في الميدان..."></textarea>
+      </div>
+
+      <div class="total-box">
+        <span>المجموع الكلي للاختبار العملي</span>
+        <strong id="totalScore">40 / 40</strong>
+      </div>
+
+      <button type="submit" id="submitBtn">إرسال التقييم للاعتماد في الديسكورد</button>
+      <div id="statusAlert" class="alert"></div>
+    </form>
+  </div>
+
+  <script>
+    const PRACTICAL_WEBHOOK = "https://discord.com/api/webhooks/1573071291605328022/RX_RtQ18T2-XA1Z1rsAD6I6ZH7ht1jSsiy7z3zBbjzFhGv5A4gIW-2fidOsByuB-opAK";
+
+    function updateScores() {
+      const d = Number(document.getElementById("discipline").value);
+      const f = Number(document.getElementById("field").value);
+      const g = Number(document.getElementById("general").value);
+      const n = Number(document.getElementById("negotiation").value);
+
+      document.getElementById("valDiscipline").textContent = `${d} / 10`;
+      document.getElementById("valField").textContent = `${f} / 10`;
+      document.getElementById("valGeneral").textContent = `${g} / 10`;
+      document.getElementById("valNegotiation").textContent = `${n} / 10`;
+      document.getElementById("totalScore").textContent = `${d + f + g + n} / 40`;
+    }
+
+    document.getElementById("evalForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const btn = document.getElementById("submitBtn");
+      const alertBox = document.getElementById("statusAlert");
+
+      btn.disabled = true;
+      btn.textContent = "جاري الإرسال...";
+      alertBox.className = "alert";
+
+      const studentName = document.getElementById("studentName").value.trim();
+      const studentCode = document.getElementById("studentCode").value.trim().toUpperCase();
+      const evaluatorName = document.getElementById("evaluatorName").value.trim();
+      const d = Number(document.getElementById("discipline").value);
+      const f = Number(document.getElementById("field").value);
+      const g = Number(document.getElementById("general").value);
+      const n = Number(document.getElementById("negotiation").value);
+      const total = d + f + g + n;
+      const notes = document.getElementById("notes").value.trim() || "لا توجد ملاحظات";
+
+      const payload = {
+        username: "رصد الاختبار العملي",
+        embeds: [
+          {
+            title: "🛡️ تقرير تقييم الاختبار العملي — بانتظار الاعتماد",
+            color: 13938487,
+            fields: [
+              { name: "👤 اسم الطالب", value: `**${studentName}**`, inline: true },
+              { name: "🎖️ الكود العسكري", value: `**${studentCode}**`, inline: true },
+              { name: "👮‍♂️ المُقيّم", value: evaluatorName, inline: true },
+              {
+                name: "📊 تفاصيل التقييم العملي",
+                value:
+                  `• **قسم الانضباط:** ( ${d} من 10 )\n` +
+                  `• **قسم الميدان:** ( ${f} من 10 )\n` +
+                  `• **قسم الـعـام:** ( ${g} من 10 )\n` +
+                  `• **قسم التفاوض:** ( ${n} من 10 )`,
+                inline: false
+              },
+              { name: "🏆 المجموع العملي", value: `**${total} / 40**`, inline: true },
+              { name: "⏳ الحالة", value: "**بانتظار اعتماد المسؤول**", inline: true },
+              { name: "📝 ملاحظات اللجنة", value: `\`\`\`${notes}\`\`\``, inline: false }
+            ],
+            footer: { text: `PRACTICAL_DATA|${studentName}|${studentCode}|${d}|${f}|${g}|${n}` },
+            timestamp: new Date().toISOString()
+          }
+        ]
+      };
+
+      try {
+        const res = await fetch(PRACTICAL_WEBHOOK, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          alertBox.textContent = "✅ تم إرسال تقييم الطالب بنجاح إلى روم الاختبار العملي بانتظار اعتماد المسؤول.";
+          alertBox.className = "alert success";
+          document.getElementById("evalForm").reset();
+          updateScores();
+        } else {
+          throw new Error("فشل الإرسال للديسكورد");
+        }
+      } catch (err) {
+        alertBox.textContent = "❌ تعذر الإرسال، تأكد من اتصال الإنترنت أو رابط الويب هوك.";
+        alertBox.className = "alert error";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "إرسال التقييم للاعتماد في الديسكورد";
+      }
+    });
+  </script>
+</body>
+</html>
