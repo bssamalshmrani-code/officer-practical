@@ -76,7 +76,7 @@
       color: #e5e7eb;
     }
 
-    input[type="text"], textarea {
+    input[type="text"], textarea, select {
       width: 100%;
       padding: 11px 14px;
       background-color: #0b0f19;
@@ -87,7 +87,23 @@
       transition: border-color 0.2s;
     }
 
-    input[type="text"]:focus, textarea:focus {
+    select {
+      cursor: pointer;
+    }
+
+    select optgroup {
+      background-color: #131a2a;
+      color: var(--gold);
+      font-weight: 800;
+    }
+
+    select option {
+      background-color: #0b0f19;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    input[type="text"]:focus, textarea:focus, select:focus {
       outline: none;
       border-color: var(--gold);
     }
@@ -222,7 +238,37 @@
 
       <div class="form-group">
         <label>اسم المُقيّم (عضو اللجنة) *</label>
-        <input type="text" id="evaluatorName" placeholder="اكتب اسمك وكودك العسكري" required />
+        <select id="evaluatorName" required>
+          <option value="" disabled selected>— اختر اسم المقيّم من لجنة ترشيح الضباط —</option>
+          
+          <optgroup label="🎖️ قيادة وإشراف اللجنة">
+            <option value="هاني الحربي [P-012]">هاني الحربي [P-012] (نائب رئيس اللجنة)</option>
+            <option value="صالح العباسي [P-022]">صالح العباسي [P-022] (مساعد رئيس اللجنة)</option>
+            <option value="جلود العنزي [P-035]">جلود العنزي [P-035] (إشراف عام اللجنة)</option>
+          </optgroup>
+
+          <optgroup label="📋 أعضاء لجنة ترشيح الضباط">
+            <option value="محمد الحربي [P-024]">01 | محمد الحربي [P-024]</option>
+            <option value="ايهم عثمان [P-037]">02 | ايهم عثمان [P-037]</option>
+            <option value="محمد بن محسن [P-048]">03 | محمد بن محسن [P-048]</option>
+            <option value="عوض عويض [P-053]">04 | عوض عويض [P-053]</option>
+            <option value="مشاري العتيبي [P-056]">05 | مشاري العتيبي [P-056]</option>
+            <option value="عدوان العنزي [P-084]">06 | عدوان العنزي [P-084]</option>
+            <option value="عبد المحسن العنزي [P-110]">07 | عبد المحسن العنزي [P-110]</option>
+            <option value="محمد بن دهمان [P-115]">08 | محمد بن دهمان [P-115]</option>
+            <option value="عمر الغامدي [P-027 | CD]">09 | عمر الغامدي [P-027 | CD]</option>
+            <option value="محمد الجربا [P-019]">10 | محمد الجربا [P-019]</option>
+            <option value="شداد بن سداح [P-020]">11 | شداد بن سداح [P-020]</option>
+            <option value="حمزة حامد [P-021]">12 | حمزة حامد [P-021]</option>
+            <option value="فيصل الزهراني [P-048]">13 | فيصل الزهراني [P-048]</option>
+            <option value="عبدالكريم الحربي [P-054]">14 | عبدالكريم الحربي [P-054]</option>
+            <option value="ظاهر الحربي [P-048]">15 | ظاهر الحربي [P-048]</option>
+            <option value="عسكر الغامدي [P-055]">16 | عسكر الغامدي [P-055]</option>
+            <option value="رائد الغامدي [P-081]">17 | رائد الغامدي [P-081]</option>
+            <option value="عبد المجيد العنزي [P-094]">18 | عبد المجيد العنزي [P-094]</option>
+            <option value="محماس بن هادي [P-158]">19 | محماس بن هادي [P-158]</option>
+          </optgroup>
+        </select>
       </div>
 
       <!-- قسم الانضباط -->
