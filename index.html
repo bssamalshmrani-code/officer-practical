@@ -108,6 +108,57 @@
       border-color: var(--gold);
     }
 
+    /* تنسيق حقل الكود العسكري المركب (حرف - رقم) */
+    .code-input-group {
+      display: flex;
+      align-items: center;
+      direction: ltr;
+      background-color: #0b0f19;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .code-input-group:focus-within {
+      border-color: var(--gold);
+    }
+
+    .code-prefix {
+      width: 68px;
+      border: none !important;
+      border-radius: 0 !important;
+      background-color: #101726 !important;
+      color: var(--gold) !important;
+      font-weight: 800;
+      font-size: 15px;
+      text-align: center;
+      padding: 11px 6px;
+    }
+
+    .code-dash {
+      padding: 0 10px;
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 18px;
+      user-select: none;
+      background-color: #101726;
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      border-right: 1px solid var(--border-color);
+    }
+
+    .code-number {
+      flex: 1;
+      border: none !important;
+      border-radius: 0 !important;
+      background-color: transparent !important;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
     .row-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -232,7 +283,27 @@
         </div>
         <div class="form-group">
           <label>الكود العسكري للطالب *</label>
-          <input type="text" id="studentCode" placeholder="مثال: P-209" required />
+          <div class="code-input-group">
+            <select id="codePrefix" class="code-prefix" aria-label="حرف الكود">
+              <option value="P" selected>P</option>
+              <option value="H">H</option>
+              <option value="R">R</option>
+              <option value="G">G</option>
+              <option value="E">E</option>
+            </select>
+            <span class="code-dash">-</span>
+            <input
+              type="text"
+              id="codeNumber"
+              class="code-number"
+              inputmode="numeric"
+              pattern="[0-9]+"
+              maxlength="5"
+              placeholder="209"
+              oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+              required
+            />
+          </div>
         </div>
       </div>
 
@@ -309,7 +380,7 @@
 
       <div class="form-group">
         <label>ملاحظات اللجنة الميدانية (اختياري)</label>
-        <textarea id="notes" rows="2" placeholder="أي ملاحظات حول أداء الطالب في الميدان..."></textarea>
+        <textarea id="notes" rows="2" placeholder="أي ملاحظات حول أداء الطالب في الاختبار العملي..."></textarea>
       </div>
 
       <div class="total-box">
@@ -348,7 +419,9 @@
       alertBox.className = "alert";
 
       const studentName = document.getElementById("studentName").value.trim();
-      const studentCode = document.getElementById("studentCode").value.trim().toUpperCase();
+      const codePrefix = document.getElementById("codePrefix").value;
+      const codeNumber = document.getElementById("codeNumber").value.trim();
+      const studentCode = `${codePrefix}-${codeNumber}`;
       const evaluatorName = document.getElementById("evaluatorName").value.trim();
       const d = Number(document.getElementById("discipline").value);
       const f = Number(document.getElementById("field").value);
